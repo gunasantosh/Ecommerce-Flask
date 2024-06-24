@@ -6,6 +6,7 @@ from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 db_user = "root"
@@ -29,7 +30,6 @@ def create_app():
     oauth.init_app(app)
     migrate.init_app(app, db)
 
-    print(os.getenv("client_id"))
     # Registering OAuth provider
     google = oauth.register(
         name="google",
