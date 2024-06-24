@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from .config import Config
 from authlib.integrations.flask_client import OAuth
 from dotenv import load_dotenv
@@ -15,6 +16,7 @@ db_name = "rogold"
 
 db = SQLAlchemy()
 oauth = OAuth()
+migrate = Migrate()
 
 
 def create_app():
@@ -25,6 +27,7 @@ def create_app():
 
     db.init_app(app)
     oauth.init_app(app)
+    migrate.init_app(app, db)
 
     print(os.getenv("client_id"))
     # Registering OAuth provider
@@ -48,6 +51,9 @@ def create_app():
     app.register_blueprint(home_bp)
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(auth_bp, url_prefix="/auth")
+
+    with app.app_context():
+        db.create_all()
 
     @app.errorhandler(404)
     def not_found(e):
