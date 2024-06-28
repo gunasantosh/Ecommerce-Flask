@@ -1,10 +1,5 @@
 from functools import wraps
-from flask import redirect, url_for, session
-
-
-ADMIN_EMAILS = [
-    "bakiincorp@gmail.com",
-]
+from flask import redirect, url_for, session, current_app
 
 
 def admin_required(f):
@@ -13,7 +8,10 @@ def admin_required(f):
         if "user" not in session:
             return redirect(url_for("auth.login"))
         user_data = session.get("userinfo")
-        if not user_data or user_data["email"] not in ADMIN_EMAILS:
+        if (
+            not user_data
+            or user_data["email"] not in current_app.config["ADMIN_EMAILS"]
+        ):
             return redirect(url_for("home.index"))
         return f(*args, **kwargs)
 

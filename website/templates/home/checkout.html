@@ -1,0 +1,60 @@
+{% extends "home/layout.html" %} {% block content %}
+<div class="container mt-4">
+  <h2>Checkout</h2>
+  <form method="post">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="mb-3">
+          <label for="delivery_address" class="form-label"
+            >Delivery Address</label
+          >
+          <textarea
+            class="form-control"
+            id="delivery_address"
+            name="delivery_address"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mb-3">
+          <label for="coupon_code" class="form-label">Coupon Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="coupon_code"
+            name="coupon_code"
+            placeholder="Enter coupon code"
+          />
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Order Summary</h5>
+            <ul class="list-group mb-3">
+              {% for item in cart_items %}
+              <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                  <h6 class="my-0">{{ item.product.name }}</h6>
+                  <small class="text-muted"
+                    >Quantity: {{ item.quantity }}</small
+                  >
+                </div>
+                <span class="text-muted"
+                  >${{ item.product.price * item.quantity }}</span
+                >
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="d-flex justify-content-between">
+              <span>Total (USD)</span>
+              <strong>${{ total_amount }}</strong>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 w-100">Pay</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

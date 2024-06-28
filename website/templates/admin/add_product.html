@@ -1,0 +1,46 @@
+{% extends "layout.html" %} {% block title %} Add Product {% endblock title %}
+{% block content %}
+<h1>Add Product</h1>
+<form
+  method="POST"
+  action="{{ url_for('admin.add_product') }}"
+  enctype="multipart/form-data"
+>
+  <div>
+    <label for="name">Product Name:</label>
+    <input type="text" id="name" name="name" required />
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description"></textarea>
+  </div>
+  <div>
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" required />
+  </div>
+  <div>
+    <label for="quantity">Quantity:</label>
+    <input type="text" id="quantity" name="quantity" required />
+  </div>
+  <div>
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+      {% for category in categories %}
+      <option value="{{ category.id }}">{{ category.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div>
+    <label for="image_file">Image File:</label>
+    <input
+      type="file"
+      id="image_file"
+      accept="image/png, image/jpeg, image/jpg, image/gif"
+      name="image_file"
+    />
+  </div>
+  <div>
+    <button type="submit">Add Product</button>
+  </div>
+</form>
+{% endblock content %}
